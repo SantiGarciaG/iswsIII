@@ -1,0 +1,24 @@
+													 *** INSTRUCTIONS ***
+        
+The following task consists of trials in which you can choose to earn or lose points. 
+
+After pressing the "start" button, two selection buttons will appear at the upper corners of the screen: "T" stands for "take it", whereas "L" stands for "Lose it". 
+
+As you start moving your cursor upwards a number will appear on the screen, this represents the points that you can either decide to "take" or "lose", by clicking on the corresponding buttons "T" or "L". 
+
+On occasions, the number will appear in red colour. When this happens, there is a 20 % probability of receiving a mild shock if you choose to take the points displayed (selecting the "T"). This probability is constant and does not depend on the points values (i.e., higher points will not have higher shock probability)
+
+Selections of "L" will never be accompanied by a shock. 
+
+Each trial-block will terminate upon completing the specified number of points, displayed at the beginning of each block. 
+
+														--------------------
+
+Remember: the more points you "take" the quicker you get through a block; the more you lose by avoiding the red numbers the longer it will take you to complete a block of trials. 
+
+So the decision is yours. You can choose "safely" and take more time, or take "your chances" and spend less time in the task. 
+ 
+Please try to make your selections as quickly as possible, when you see the points. 
+
+
+											   When you're ready to continue just click.

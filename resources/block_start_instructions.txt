@@ -1,0 +1,4 @@
+Note that the position of the response keys might've changed from block to block.  
+
+
+The next block will terminate upon obtaining the following minimum amount of points:

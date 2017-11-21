@@ -67,10 +67,9 @@ class ISWSExpUI:
         self.experiment_end_screen = self.initialize_experiment_end_screen(
                                 instructions_file % ('experiment_end'))
 
-        self.block_start_screen, self.block_threshold_stim = self.initialize_block_start_screen(
-                                instructions_file % ('block_start'))
-        self.block_end_screen = self.intialize_message_screen(
-                                instructions_file % ('block_end'))
+        self.block_start_screen, self.block_threshold_stim, self.block_number_stim = \
+                    self.initialize_block_start_screen(instructions_file % ('block_start'))
+        self.block_end_screen = self.intialize_message_screen(instructions_file % ('block_end'))
         
         self.trial_start_screen, self.start_button_rect = self.initialize_trial_start_screen()
         self.response_screen = self.initialize_response_screen()
@@ -111,24 +110,22 @@ class ISWSExpUI:
 
     def initialize_block_start_screen(self, message_file):
         block_start_screen = self.intialize_message_screen(message_file)
+
+        block_number_stim = visual.TextStim(self.win, pos=(0,-250), color='white',            #BBBBBB
+                                                    height=60, units='pix')
+        block_start_screen.screen.append(block_number_stim)                                      #BBBBBB
         
-        block_threshold_stim = visual.TextStim(self.win, pos=(0,-150), color= '#F5F500',
+        block_threshold_stim = visual.TextStim(self.win, pos=(0,-150), color='#F5F500',
                                                     height=60, units='pix')
         block_start_screen.screen.append(block_threshold_stim)
     
-        numeroDblock = visual.TextStim(self.win, pos=(0,-250), color= 'white',            #BBBBBB
-                                                    height=60, units='pix',
-                                                    text= 'Blok No: ' + str(self.blockNumero)+'/10')
-        
-        block_start_screen.screen.append(numeroDblock)                                      #BBBBBB
-    
-        return block_start_screen, block_threshold_stim, numeroDblock                       #BBBBBB
+        return block_start_screen, block_threshold_stim, block_number_stim
 
-    def show_block_start_screen(self, threshold):
+    def show_block_start_screen(self, threshold, block_number):
+        self.block_number_stim.setText('Block %s is about to start.' % (str(block_number)+'/10'))
         self.block_threshold_stim.setText(str(threshold))
         self.show_message_screen(self.block_start_screen)
 
-    
     def show_block_end_screen(self):
         self.show_message_screen(self.block_end_screen)
 

@@ -20,8 +20,6 @@ class ISWSExp:
         libtime.expstart()
         self.user_interface.show_experiment_start_screen()
 #        self.user_interface.show_practice_start_screen()
-
-        self.blockNumero = 0                                                                    # BBBBBBBBB 
         
         # counterbalance first block response area location across participants        
         is_take_left = random.choice([False,True])  
@@ -56,14 +54,13 @@ class ISWSExp:
         threshold = (MIN_N_CHUNKS*(NUMBER_RANGE[1]+NUMBER_RANGE[0])* \
                         (NUMBER_RANGE[1]-NUMBER_RANGE[0]+1)/2)
         
-        # TODO: generate numbers (incl threat/no_threat mark) for all trials in the block
         target_numbers = self.prepare_target_numbers()
         
         self.eye_tracker.calibrate()
         
         # The threshold is set by taking the minimum rewards and multiplying it by the value 
         # in the constant MAX_N_TRIALS
-        self.user_interface.show_block_start_screen(threshold=threshold)
+        self.user_interface.show_block_start_screen(threshold=threshold, block_number=block_no)
         
         # We create the variable that will contain the points
         accumulated_points = 0
@@ -81,8 +78,6 @@ class ISWSExp:
             accumulated_points += points_earned
             # We update the variable adding 1 per trial iteration            
             trial_no += 1
-
-        self.blockNumero += 1                                                                 # BBBBBBBBB
         
         # uncomment this to get sensation rating
 #        sensation_rating = self.user_interface.show_rating_screen(rating_type='sensation')

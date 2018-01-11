@@ -202,10 +202,11 @@ class ISWSExpUI:
                     
 
 #        self.disp.show()
-        
+        trial_start_time = libtime.get_time()
         while self.deadzone_rect.contains(self.mouse.mouse):
             self.disp.fill(self.response_screen)
             self.disp.show()
+        idle_time = libtime.get_time() - trial_start_time
 
         self.target.setOpacity(1.0)            
         self.target.setText(text=trial_info['target_num'])
@@ -221,11 +222,11 @@ class ISWSExpUI:
         option_chosen = None
         response_dynamics_log = []
 
-        trial_start_time = libtime.get_time()
+        response_start_time = libtime.get_time()
         
         while option_chosen is None:
             mouse_position = self.mouse.get_pos()
-            t = libtime.get_time() - trial_start_time
+            t = libtime.get_time() - response_start_time
                 
             eye_position = tracker.sample()
             pupil_size = tracker.pupil_size()
@@ -251,7 +252,7 @@ class ISWSExpUI:
                     self.right_resp_img.setImage('resources/selectedT.png')
             
             libtime.pause(TIMESTEP)        
-        response_time = libtime.get_time()-trial_start_time
+        response_time = libtime.get_time()-response_start_time
             
         self.target.setOpacity(0.0) 
         self.target.setText(text='')
@@ -260,7 +261,7 @@ class ISWSExpUI:
         self.disp.show()
         libtime.pause(300)
         
-        return response_dynamics_log, option_chosen, response_time    
+        return response_dynamics_log, option_chosen, response_time, idle_time
         
     def initialize_trial_end_screen(self):
         trial_end_screen = libscreen.Screen()

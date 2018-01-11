@@ -46,7 +46,7 @@ class ISWSExpDA:
             writer = csv.writer(fp, delimiter = '\t')
             writer.writerow(['subj_id', 'block_no', 'trial_no', 'is_take_left', 'target', 
                              'is_threat', 'option_chosen', 'points_earned', 'shock_delivered',
-                             'response_time', 'shock_prob'])
+                             'response_time', 'idle_time', 'shock_prob'])
                              
         with open(self.blocks_log_file, 'ab+') as fp:
             writer = csv.writer(fp, delimiter = '\t')

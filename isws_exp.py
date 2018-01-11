@@ -20,14 +20,11 @@ class ISWSExp:
         libtime.expstart()
         self.user_interface.show_experiment_start_screen()
 #        self.user_interface.show_practice_start_screen()
-        
-        # counterbalance first block response area location across participants        
-        is_take_left = random.choice([False,True])  
             
         for i in range(1, N_BLOCKS+1):
             # Taking club-deck as reference, 
             # REMEMBER: rewards[0] is reward for T; rewards[1] is L         
-            block_info = self.run_block(i, is_take_left=is_take_left)
+            block_info = self.run_block(i)
             
             self.data_access.write_block_log(block_info)
                     
@@ -35,10 +32,10 @@ class ISWSExp:
             # So it starts with e.g. is_take_left = True and changed after the next iteration to = False, 
             # and after the second iteration the False is Not more (i.e., True)
             # TODO: implement different ways of counterbalancing (alternating vs. random)
-            if COUNTERBALANCE == 'alternate':
-                is_take_left = not is_take_left
-            else:
-                is_take_left = not is_take_left
+#            if COUNTERBALANCE == 'alternate':
+#                is_take_left = not is_take_left
+#            else:
+#                is_take_left = not is_take_left
         self.eye_tracker.close()    
         libtime.pause(500)
         
@@ -48,13 +45,14 @@ class ISWSExp:
         self.user_interface.close()
         
     #------ WE CREATE A FUNCTION THAT WILL RUN THE CONTENTS OF A BLOCK ----------             
-    def run_block(self, block_no, is_take_left=True):
+    def run_block(self, block_no):
         expectancy_rating = self.user_interface.show_rating_screen(rating_type='expectancy')
         
         threshold = (MIN_N_CHUNKS*(NUMBER_RANGE[1]+NUMBER_RANGE[0])* \
                         (NUMBER_RANGE[1]-NUMBER_RANGE[0]+1)/2)
         
         target_numbers = self.prepare_target_numbers()
+        counterbalance_seq = self.prepare_counterbalance_sequence(n=len(target_numbers))
         
         self.eye_tracker.calibrate()
         
@@ -69,6 +67,7 @@ class ISWSExp:
         # This is the loop for proceeding to the next block
         while (accumulated_points < threshold) & (len(target_numbers)>0):
             target_num, is_threat = target_numbers.pop(0)
+            is_take_left = counterbalance_seq.pop(0)
             points_earned, response_dynamics_log, choice_info = \
                     self.run_trial(target_num, is_threat, accumulated_points, threshold, 
                                    block_no, trial_no, is_take_left)
@@ -109,7 +108,21 @@ class ISWSExp:
             targets = self.prepare_target_numbers()           
                 
         return targets
+    
+    def prepare_counterbalance_sequence(self, n):
+        '''        
+        Here we shuffle n/2 True's and n/2 False's until there is no repetitions of length 4.
+        For this, n needs to be even, and in the current version of the protocol it always is.
+        '''
+        # TODO: handle odd n just in case or raise an exception if n%2>0
         
+        seq = [True] * (n/2) + [False] * (n/2)        
+
+        while any([i==j==k==l for i,j,k,l in zip(seq, seq[1:], seq[2:], seq[3:])]):
+            random.shuffle(seq)
+        
+        return seq
+    
     def run_trial(self, target_num, is_threat, accumulated_points, threshold, 
                                    block_no, trial_no, is_take_left=True):
         trial_info = {'exp_type': self.exp_info['exp_type'],
@@ -125,9 +138,10 @@ class ISWSExp:
         self.eye_tracker.start_recording(start_message = 'subject %s block %d trial %d' % 
                                             (self.exp_info['subj_id'], block_no, trial_no))
 
-        response_dynamics_log, option_chosen, response_time = self.user_interface.show_response_screen(                                                                    
-                                                                    trial_info=trial_info,
-                                                                    tracker=self.eye_tracker)
+        response_dynamics_log, option_chosen, response_time, idle_time = \
+                    self.user_interface.show_response_screen(trial_info=trial_info, 
+                                                             tracker=self.eye_tracker)
+                
         self.eye_tracker.stop_recording()
 
         trial_info['option_chosen'] = option_chosen
@@ -146,7 +160,7 @@ class ISWSExp:
 
         choice_info = [self.exp_info['subj_id'], block_no, trial_no, is_take_left, 
                            target_num, is_threat, option_chosen, points_earned, 
-                           shock_delivered, response_time, SHOCK_PROB]
+                           shock_delivered, response_time, idle_time, SHOCK_PROB]
 
 #        # drift correction after every fifth trial
         if trial_no % 10 == 0:

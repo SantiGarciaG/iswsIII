@@ -1,8 +1,8 @@
 ##Experiment-specific variables
 #
-#N_BLOCKS = 10   # (Ten) 
-#NUMBER_RANGE = [1, 9]  # 1-9 digits i.e., [1, 9]
-#MIN_N_CHUNKS = 5    # (including "threat" chunks) 5 would gives us a 4:1 ratio of threat-free and threat-loaded 
+N_BLOCKS = 10   # (Ten) 
+NUMBER_RANGE = [1, 9]  # 1-9 digits i.e., [1, 9]
+MIN_N_CHUNKS = 5    # (including "threat" chunks) 5 would gives us a 4:1 ratio of threat-free and threat-loaded 
 THREAT_CHUNKS = 1   # sets of 1-9 digits to which the threat prob is applied (from MIN_N_CHUNKS)
 SHOCK_PROB = .20
 
@@ -23,9 +23,9 @@ SUBJ_ID = None # If an id number is given instead, this is used and no id number
 EYELINKCALBEEP = False
 
 #-------values for testing------------------
-N_BLOCKS = 3   
-NUMBER_RANGE = [1, 3]  
-MIN_N_CHUNKS = 3    
+#N_BLOCKS = 3   
+#NUMBER_RANGE = [1, 3]  
+#MIN_N_CHUNKS = 3    
 #-------------------------
 
 

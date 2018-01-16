@@ -1,4 +1,6 @@
-Note that the position of the response keys might've changed from block to block.  
+Note that the position of the response-keys changes from trial to trial,  
+
+and remember to make a selection soon after seeing the target number.
 
 
-The next block will terminate upon obtaining the following minimum amount of points:
+Minimum amount of points to complete the next block:

@@ -18,7 +18,7 @@ class ISWSExpUI:
     start_button_pos = (0, -DISPSIZE[1]/2 + (start_button_size[1]/2 + start_button_offset[1]))
 
     # (width, height)
-    deadzone_size = (DISPSIZE[0], 90)
+    deadzone_size = (DISPSIZE[0], 130)
     deadzone_pos = start_button_pos
     
     # (x, y)
@@ -111,18 +111,18 @@ class ISWSExpUI:
     def initialize_block_start_screen(self, message_file):
         block_start_screen = self.intialize_message_screen(message_file)
 
-        block_number_stim = visual.TextStim(self.win, pos=(0,-250), color='white',            #BBBBBB
-                                                    height=60, units='pix')
-        block_start_screen.screen.append(block_number_stim)                                      #BBBBBB
+        block_number_stim = visual.TextStim(self.win, pos=(0,300), color='white', height=50, 
+                                            units='pix', wrapWidth=800)
+        block_start_screen.screen.append(block_number_stim)
         
-        block_threshold_stim = visual.TextStim(self.win, pos=(0,-150), color='#F5F500',
+        block_threshold_stim = visual.TextStim(self.win, pos=(0,-230), color='#F5F500',
                                                     height=60, units='pix')
         block_start_screen.screen.append(block_threshold_stim)
     
         return block_start_screen, block_threshold_stim, block_number_stim
 
     def show_block_start_screen(self, threshold, block_number):
-        self.block_number_stim.setText('Block %s is about to start.' % (str(block_number)+'/10'))
+        self.block_number_stim.setText('Block %s is about to start' % (str(block_number)+'/10'))
         self.block_threshold_stim.setText(str(threshold))
         self.show_message_screen(self.block_start_screen)
 
